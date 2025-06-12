@@ -11,11 +11,11 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#2563eb', /* Blue-600 */
-                        secondary: '#0ea5e9', /* Sky-500 */
-                        accent: '#8b5cf6', /* Violet-500 */
-                        dark: '#1e293b', /* Slate-800 */
-                        light: '#f1f5f9' /* Slate-100 */
+                        primary: '#2563eb',
+                        secondary: '#0ea5e9',
+                        accent: '#8b5cf6',
+                        dark: '#1e293b',
+                        light: '#f1f5f9'
                     }
                 }
             }
@@ -24,27 +24,29 @@
     <style>
         body {
             font-family: "Inter", sans-serif;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
         }
-        /* Full viewport height sections */
+        
         .full-vh-section {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 1rem; /* Add some padding for small screens */
-            box-sizing: border-box; /* Include padding in element's total width and height */
+            padding: 1rem;
+            box-sizing: border-box;
         }
+        
         .hero-section {
-            background-image: url('https://placehold.co/1920x1080/1a202c/667eea?text=NETFLOW+BILLING+HERO'); /* Dark background with techy grid */
+            background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
             position: relative;
             z-index: 0;
             color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Add text shadow for readability */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
+        
         .hero-section::before {
             content: '';
             position: absolute;
@@ -55,33 +57,38 @@
             background-color: rgba(0,0,0,0.6);
             z-index: -1;
         }
+        
         .animate-fade-in-down {
             animation: fadeInDown 1s ease-out forwards;
             opacity: 0;
         }
+        
         .animate-fade-in-up {
             animation: fadeInUp 1s ease-out 0.3s forwards;
             opacity: 0;
         }
+        
         .animate-scale-in {
             animation: scaleIn 0.8s ease-out 0.6s forwards;
             opacity: 0;
             transform: scale(0.9);
         }
+        
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
         @keyframes scaleIn {
             from { opacity: 0; transform: scale(0.9); }
             to { opacity: 1; transform: scale(1); }
         }
-
-        /* Premium Section Styles */
+        
         .premium-section {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             position: relative;
@@ -105,7 +112,6 @@
         }
         
         .section-title {
-            font-family: 'Manrope', sans-serif;
             font-weight: 800;
             position: relative;
             display: inline-block;
@@ -122,7 +128,6 @@
             border-radius: 2px;
         }
         
-        /* Premium Bento Grid */
         .premium-bento-grid {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
@@ -153,7 +158,6 @@
             }
         }
         
-        /* Premium Card */
         .premium-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
@@ -213,7 +217,6 @@
         }
         
         .premium-card h3 {
-            font-family: 'Manrope', sans-serif;
             font-weight: 700;
             font-size: 1.5rem;
             margin-bottom: 1rem;
@@ -266,7 +269,6 @@
             transform: translateX(3px);
         }
         
-        /* Animation */
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -277,31 +279,6 @@
             animation: float 4s ease-in-out infinite;
         }
         
-        .animate-delay-100 {
-            animation-delay: 0.1s;
-        }
-        
-        .animate-delay-200 {
-            animation-delay: 0.2s;
-        }
-        
-        .animate-delay-300 {
-            animation-delay: 0.3s;
-        }
-        
-        .animate-delay-400 {
-            animation-delay: 0.4s;
-        }
-        
-        .animate-delay-500 {
-            animation-delay: 0.5s;
-        }
-        
-        .animate-delay-600 {
-            animation-delay: 0.6s;
-        }
-        
-        /* Decorations */
         .abstract-shape {
             position: absolute;
             z-index: 0;
@@ -343,9 +320,9 @@
             animation: float 5s ease-in-out infinite;
             animation-delay: 2s;
         }
-        /* Front Page Navigation */
+        
         .front-page-nav {
-            background-color: #1e293b; /* dark */
+            background-color: #1e293b;
             color: white;
             padding: 1rem 1.5rem;
             display: flex;
@@ -360,6 +337,7 @@
             transition: all 0.3s ease;
             box-sizing: border-box;
         }
+        
         .front-page-nav .logo {
             font-size: 1.5rem;
             font-weight: bold;
@@ -367,75 +345,63 @@
             align-items: center;
             gap: 0.5rem;
         }
+        
         .front-page-nav .nav-links a {
             padding: 0.5rem 1rem;
             border-radius: 0.375rem;
             transition: background-color 0.2s ease;
         }
+        
         .front-page-nav .nav-links a:hover {
             background-color: rgba(255,255,255,0.1);
         }
+        
         .front-page-nav .auth-buttons a {
             padding: 0.6rem 1.2rem;
-            border-radius: 9999px; /* rounded-full */
+            border-radius: 9999px;
             font-weight: 600;
             transition: all 0.2s ease;
         }
+        
         .front-page-nav .auth-buttons a.login-btn {
-            background-color: #2563eb; /* primary */
+            background-color: #2563eb;
             color: white;
         }
+        
         .front-page-nav .auth-buttons a.login-btn:hover {
-            background-color: #1d4ed8; /* blue-700 */
+            background-color: #1d4ed8;
         }
+        
         .front-page-nav .auth-buttons a.register-btn {
             border: 2px solid white;
             color: white;
         }
+        
         .front-page-nav .auth-buttons a.register-btn:hover {
             background-color: white;
             color: #2563eb;
         }
-
-        /* Mobile Nav Toggle */
+        
         .mobile-nav-toggle {
             display: none;
             font-size: 1.5rem;
             cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
         }
+        
         @media (max-width: 768px) {
             .front-page-nav .nav-links,
             .front-page-nav .auth-buttons {
                 display: none;
-                flex-direction: column;
-                position: fixed; /* Use fixed for full height overlay */
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh; /* Full viewport height */
-                background-color: #1e293b;
-                padding: 1rem;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-                justify-content: center; /* Center items vertically in mobile menu */
-                align-items: center;
             }
-            .front-page-nav .nav-links.open,
-            .front-page-nav .auth-buttons.open {
-                display: flex;
-            }
-            .front-page-nav .nav-links a,
-            .front-page-nav .auth-buttons a {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 1rem; /* More spacing for mobile links */
-                font-size: 1.5rem; /* Larger font size for mobile links */
-            }
+            
             .mobile-nav-toggle {
                 display: block;
             }
         }
-
-        /* Pricing Card Specifics */
+        
         .pricing-card {
             background-color: white;
             border-radius: 0.75rem;
@@ -446,16 +412,17 @@
             flex-direction: column;
             align-items: center;
             transition: transform 0.3s ease, border-color 0.3s ease;
-            border: 2px solid transparent; /* Default transparent border */
+            border: 2px solid transparent;
         }
-
+        
         .pricing-card.recommended {
-            border-color: #2563eb; /* Primary color border for recommended */
-            transform: scale(1.05); /* Slightly larger */
-            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.3); /* Stronger shadow */
-            position: relative; /* For "Popular" badge */
+            border-color: #2563eb;
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.3);
+            position: relative;
             z-index: 10;
         }
+        
         .pricing-card.recommended::before {
             content: "POPULAR";
             position: absolute;
@@ -470,23 +437,26 @@
             font-weight: bold;
             letter-spacing: 0.05em;
         }
-
+        
         .pricing-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
+        
         .pricing-card .price-tag {
-            font-size: 3rem; /* text-5xl */
+            font-size: 3rem;
             font-weight: bold;
-            color: #1e293b; /* dark */
+            color: #1e293b;
             margin-bottom: 0.5rem;
         }
+        
         .pricing-card .price-tag span {
-            font-size: 1.5rem; /* smaller for currency/period */
+            font-size: 1.5rem;
             font-weight: normal;
             vertical-align: middle;
             opacity: 0.8;
         }
+        
         .pricing-card .features-list {
             list-style: none;
             padding: 0;
@@ -494,18 +464,21 @@
             margin-bottom: 2rem;
             text-align: left;
             width: 100%;
-            max-width: 250px; /* Constrain feature list width */
+            max-width: 250px;
         }
+        
         .pricing-card .features-list li {
             display: flex;
             align-items: center;
             margin-bottom: 0.75rem;
-            color: #4b5563; /* gray-700 */
+            color: #4b5563;
         }
+        
         .pricing-card .features-list li .fas {
-            color: #10b981; /* green-500 */
+            color: #10b981;
             margin-right: 0.75rem;
         }
+        
         .pricing-card .cta-button {
             padding: 0.75rem 2rem;
             border-radius: 9999px;
@@ -513,36 +486,41 @@
             transition: all 0.2s ease;
             width: 100%;
         }
+        
         .pricing-card .cta-button.primary-btn {
             background-color: #2563eb;
             color: white;
         }
+        
         .pricing-card .cta-button.primary-btn:hover {
             background-color: #1d4ed8;
         }
+        
         .pricing-card .cta-button.secondary-btn {
             background-color: #f1f5f9;
             color: #2563eb;
             border: 2px solid #2563eb;
         }
+        
         .pricing-card .cta-button.secondary-btn:hover {
             background-color: #e2e8f0;
         }
+        
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
-            gap: 2rem; /* gap-8 */
+            gap: 2rem;
             width: 100%;
             max-width: 1000px;
             margin: 0 auto;
         }
+        
         @media (min-width: 768px) {
             .pricing-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
-
-        /* FAQ specific styles */
+        
         .faq-item {
             background-color: white;
             border-radius: 0.75rem;
@@ -550,24 +528,27 @@
             margin-bottom: 1rem;
             overflow: hidden;
         }
+        
         .faq-question {
             width: 100%;
             padding: 1.25rem 1.5rem;
             text-align: left;
             font-weight: 600;
-            font-size: 1.125rem; /* text-lg */
+            font-size: 1.125rem;
             color: #1e293b;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            background-color: #f8fafc; /* light gray background */
+            background-color: #f8fafc;
             border-bottom: 1px solid #e2e8f0;
             transition: background-color 0.2s ease;
         }
+        
         .faq-question:hover {
             background-color: #f1f5f9;
         }
+        
         .faq-answer {
             padding: 0 1.5rem;
             max-height: 0;
@@ -575,15 +556,90 @@
             transition: max-height 0.4s ease-out, padding 0.4s ease-out;
             color: #4b5563;
         }
+        
         .faq-answer.open {
-            max-height: 500px; /* Large enough to accommodate content */
+            max-height: 500px;
             padding: 1rem 1.5rem 1.25rem;
         }
+        
         .faq-icon {
             transition: transform 0.3s ease;
         }
+        
         .faq-icon.rotate {
             transform: rotate(180deg);
+        }
+        
+        /* Mobile menu overlay */
+        #mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(30, 41, 59, 0.95);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        #mobile-menu-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        #mobile-menu-overlay a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease;
+        }
+        
+        #mobile-menu-overlay a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        #mobile-menu-overlay .login-btn {
+            background-color: #2563eb;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        #mobile-menu-overlay .register-btn {
+            border: 2px solid white;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        #mobile-menu-overlay .register-btn:hover {
+            background-color: white;
+            color: #2563eb;
+        }
+        
+        #close-mobile-menu {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -597,7 +653,7 @@
         <button class="mobile-nav-toggle" id="front-nav-toggle">
             <i class="fas fa-bars"></i>
         </button>
-        <div class="nav-links space-x-4 md:flex hidden">
+        <div class="nav-links space-x-4 hidden md:flex">
             <a href="#hero-section" class="nav-link">Home</a>
             <a href="#services-section" class="nav-link">Services</a>
             <a href="#why-us-section" class="nav-link">Why Us</a>
@@ -605,24 +661,23 @@
             <a href="#faq-section" class="nav-link">FAQ</a>
             <a href="#cta-section" class="nav-link">Contact</a>
         </div>
-        <div class="auth-buttons space-x-3 md:flex hidden">
-            <!-- These links would typically point to your dashboard's login/register forms -->
+        <div class="auth-buttons space-x-3 hidden md:flex">
             <a href="hotspot-dashboard-pages.html?section=dashboard-content" class="login-btn">Login</a>
             <a href="hotspot-dashboard-pages.html?section=register-content" class="register-btn">Register</a>
         </div>
     </nav>
 
-    <!-- Mobile Navigation Overlay (when toggled) -->
-    <div id="mobile-menu-overlay" class="fixed inset-0 bg-dark bg-opacity-95 z-40 hidden flex-col items-center justify-center space-y-8 text-white text-2xl">
-        <a href="#hero-section" class="nav-link" data-close-menu>Home</a>
-        <a href="#services-section" class="nav-link" data-close-menu>Services</a>
-        <a href="#why-us-section" class="nav-link" data-close-menu>Why Us</a>
-        <a href="#pricing-section" class="nav-link" data-close-menu>Pricing</a>
-        <a href="#faq-section" class="nav-link" data-close-menu>FAQ</a>
-        <a href="#cta-section" class="nav-link" data-close-menu>Contact</a>
-        <a href="hotspot-dashboard-pages.html?section=dashboard-content" class="login-btn text-white bg-primary hover:bg-blue-700">Login</a>
-        <a href="hotspot-dashboard-pages.html?section=register-content" class="register-btn text-white border-2 border-white hover:bg-white hover:text-primary">Register</a>
-        <button class="absolute top-4 right-4 text-white text-3xl" id="close-mobile-menu">
+    <!-- Mobile Navigation Overlay -->
+    <div id="mobile-menu-overlay" class="flex flex-col items-center justify-center space-y-6">
+        <a href="#hero-section" class="nav-link">Home</a>
+        <a href="#services-section" class="nav-link">Services</a>
+        <a href="#why-us-section" class="nav-link">Why Us</a>
+        <a href="#pricing-section" class="nav-link">Pricing</a>
+        <a href="#faq-section" class="nav-link">FAQ</a>
+        <a href="#cta-section" class="nav-link">Contact</a>
+        <a href="hotspot-dashboard-pages.html?section=dashboard-content" class="login-btn">Login</a>
+        <a href="hotspot-dashboard-pages.html?section=register-content" class="register-btn">Register</a>
+        <button id="close-mobile-menu">
             <i class="fas fa-times"></i>
         </button>
     </div>
@@ -650,9 +705,8 @@
         </div>
     </section>
 
-    <!-- Services Section - Bento Grid Style -->
+    <!-- Services Section -->
     <section id="services-section" class="py-20 pt-28 px-4 premium-section">
-        <!-- Abstract Shapes -->
         <div class="abstract-shape shape-1"></div>
         <div class="abstract-shape shape-2"></div>
         <div class="abstract-shape shape-3"></div>
@@ -671,8 +725,7 @@
             </div>
             
             <div class="premium-bento-grid">
-                <!-- Mobile Friendly -->
-                <div class="premium-card floating animate-delay-100">
+                <div class="premium-card floating">
                     <div class="premium-icon">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
@@ -684,12 +737,11 @@
                         Learn more <i class="fas fa-arrow-right"></i>
                     </a>
                     <div class="mt-6 w-full">
-                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://placehold.co/600x400/e0f2fe/2563eb?text=Mobile+Interface" alt="Mobile Dashboard">
+                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="Mobile Dashboard">
                     </div>
                 </div>
                 
-                <!-- Performance -->
-                <div class="premium-card floating animate-delay-200">
+                <div class="premium-card floating">
                     <div class="premium-icon">
                         <i class="fas fa-bolt"></i>
                     </div>
@@ -701,12 +753,11 @@
                         Learn more <i class="fas fa-arrow-right"></i>
                     </a>
                     <div class="mt-6 w-full">
-                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://placehold.co/600x300/dbeafe/2563eb?text=Performance+Metrics" alt="Performance Graph">
+                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Performance Graph">
                     </div>
                 </div>
                 
-                <!-- Security -->
-                <div class="premium-card floating animate-delay-300">
+                <div class="premium-card floating">
                     <div class="premium-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
@@ -718,12 +769,11 @@
                         Learn more <i class="fas fa-arrow-right"></i>
                     </a>
                     <div class="mt-6 w-full flex justify-center">
-                        <img class="w-48 rounded-xl border border-gray-100 shadow-lg" src="https://placehold.co/300x300/ede9fe/8b5cf6?text=Security+Lock" alt="Security Lock">
+                        <img class="w-48 rounded-xl border border-gray-100 shadow-lg" src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80" alt="Security Lock">
                     </div>
                 </div>
                 
-                <!-- APIs -->
-                <div class="premium-card floating animate-delay-400">
+                <div class="premium-card floating">
                     <div class="premium-icon">
                         <i class="fas fa-code"></i>
                     </div>
@@ -735,12 +785,11 @@
                         Learn more <i class="fas fa-arrow-right"></i>
                     </a>
                     <div class="mt-6 w-full">
-                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://placehold.co/600x400/e0e7ff/4f46e5?text=API+Integration" alt="API Integration">
+                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80" alt="API Integration">
                     </div>
                 </div>
                 
-                <!-- Reporting -->
-                <div class="premium-card floating animate-delay-500">
+                <div class="premium-card floating">
                     <div class="premium-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
@@ -752,12 +801,11 @@
                         Learn more <i class="fas fa-arrow-right"></i>
                     </a>
                     <div class="mt-6 w-full">
-                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://placehold.co/600x300/dbeafe/2563eb?text=Analytics+Dashboard" alt="Reports Chart">
+                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Reports Chart">
                     </div>
                 </div>
                 
-                <!-- Compatibility -->
-                <div class="premium-card floating animate-delay-600">
+                <div class="premium-card floating">
                     <div class="premium-icon">
                         <i class="fas fa-plug"></i>
                     </div>
@@ -769,7 +817,7 @@
                         Learn more <i class="fas fa-arrow-right"></i>
                     </a>
                     <div class="mt-6 w-full">
-                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://placehold.co/600x300/f0fdfa/0d9488?text=Router+Compatibility" alt="Compatible Devices">
+                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://images.unsplash.com/photo-1586769852044-692d6e3703f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" alt="Compatible Devices">
                     </div>
                 </div>
             </div>
@@ -784,7 +832,6 @@
             </div>
         </div>
     </section>
-
 
     <!-- Why Us Section -->
     <section id="why-us-section" class="full-vh-section bg-dark text-white py-16 pt-20">
@@ -982,60 +1029,54 @@
     </footer>
 
     <script>
+        // Mobile menu toggle
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const frontNavToggle = document.getElementById('front-nav-toggle');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        
+        frontNavToggle.addEventListener('click', () => {
+            mobileMenuOverlay.classList.add('open');
+        });
+        
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenuOverlay.classList.remove('open');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu-overlay a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuOverlay.classList.remove('open');
+            });
+        });
+        
         // Smooth scrolling for navigation links
-        document.querySelectorAll('.nav-link').forEach(anchor => {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
                 const navHeight = document.getElementById('front-page-nav').offsetHeight;
-
+                
                 if (targetElement) {
                     window.scrollTo({
-                        top: targetElement.offsetTop - navHeight, // Adjust for fixed nav height
+                        top: targetElement.offsetTop - navHeight,
                         behavior: 'smooth'
                     });
-                }
-                // Close mobile menu if open
-                const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
-                if (!mobileMenuOverlay.classList.contains('hidden')) {
-                    mobileMenuOverlay.classList.add('hidden');
+                    
+                    // Close mobile menu if open
+                    if (mobileMenuOverlay.classList.contains('open')) {
+                        mobileMenuOverlay.classList.remove('open');
+                    }
                 }
             });
         });
-
-        // Mobile menu toggle logic
-        const frontNavToggle = document.getElementById('front-nav-toggle');
-        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
-        const closeMobileMenu = document.getElementById('close-mobile-menu');
-
-        frontNavToggle.addEventListener('click', () => {
-            mobileMenuOverlay.classList.remove('hidden');
-        });
-
-        closeMobileMenu.addEventListener('click', () => {
-            mobileMenuOverlay.classList.add('hidden');
-        });
-
-        document.querySelectorAll('[data-close-menu]').forEach(item => {
-            item.addEventListener('click', () => {
-                mobileMenuOverlay.classList.add('hidden');
-            });
-        });
-
-        // Hide desktop nav links on mobile when overlay is open (optional, as overlay covers it)
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                mobileMenuOverlay.classList.add('hidden'); // Ensure overlay is hidden on desktop resize
-            }
-        });
-
+        
         // FAQ Accordion functionality
         document.querySelectorAll('.faq-question').forEach(button => {
             button.addEventListener('click', () => {
                 const answer = button.nextElementSibling;
                 const icon = button.querySelector('.faq-icon');
-
+                
                 // Close other open answers
                 document.querySelectorAll('.faq-answer.open').forEach(openAnswer => {
                     if (openAnswer !== answer) {
@@ -1043,11 +1084,21 @@
                         openAnswer.previousElementSibling.querySelector('.faq-icon').classList.remove('rotate');
                     }
                 });
-
+                
                 // Toggle current answer
                 answer.classList.toggle('open');
                 icon.classList.toggle('rotate');
             });
+        });
+        
+        // Navbar shadow on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('front-page-nav');
+            if (window.scrollY > 10) {
+                nav.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
+            } else {
+                nav.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+            }
         });
     </script>
 </body>
