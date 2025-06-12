@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotspot Management System - Admin Dashboard</title>
+    <title>NetFlow Billing - Revolutionize Your Hotspot Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#2563eb',
-                        secondary: '#0ea5e9',
-                        accent: '#8b5cf6',
-                        dark: '#1e293b',
-                        light: '#f1f5f9'
+                        primary: '#2563eb', /* Blue-600 */
+                        secondary: '#0ea5e9', /* Sky-500 */
+                        accent: '#8b5cf6', /* Violet-500 */
+                        dark: '#1e293b', /* Slate-800 */
+                        light: '#f1f5f9' /* Slate-100 */
                     }
                 }
             }
@@ -25,1343 +23,1031 @@
     </script>
     <style>
         body {
-            font-family: "Inter", sans-serif; /* Ensuring Inter font is used */
+            font-family: "Inter", sans-serif;
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
-        .sidebar {
+        /* Full viewport height sections */
+        .full-vh-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem; /* Add some padding for small screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+        .hero-section {
+            background-image: url('https://placehold.co/1920x1080/1a202c/667eea?text=NETFLOW+BILLING+HERO'); /* Dark background with techy grid */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            z-index: 0;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Add text shadow for readability */
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            z-index: -1;
+        }
+        .animate-fade-in-down {
+            animation: fadeInDown 1s ease-out forwards;
+            opacity: 0;
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+        .animate-scale-in {
+            animation: scaleIn 0.8s ease-out 0.6s forwards;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Premium Section Styles */
+        .premium-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .premium-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(239, 246, 255, 0.4) 0%, rgba(239, 246, 255, 0) 60%);
+            z-index: 0;
+        }
+        
+        .section-header {
+            position: relative;
+            z-index: 10;
+        }
+        
+        .section-title {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #2563eb, #8b5cf6);
+            border-radius: 2px;
+        }
+        
+        /* Premium Bento Grid */
+        .premium-bento-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+        
+        @media (min-width: 768px) {
+            .premium-bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .premium-bento-grid {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: 2fr 1fr;
+            }
+            .premium-bento-grid > div:nth-child(1) {
+                grid-row: span 2;
+            }
+            .premium-bento-grid > div:nth-child(4) {
+                grid-row: span 2;
+            }
+        }
+        
+        /* Premium Card */
+        .premium-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: scale(1) translateY(0);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .premium-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .premium-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+        }
+        
+        .premium-icon i {
+            font-size: 2rem;
+            color: #2563eb;
+            background: linear-gradient(135deg, #2563eb, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .premium-card h3 {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+            position: relative;
+        }
+        
+        .premium-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #2563eb, #8b5cf6);
+            border-radius: 3px;
+        }
+        
+        .premium-card p {
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .learn-more {
+            display: inline-flex;
+            align-items: center;
+            color: #2563eb;
+            font-weight: 600;
+            text-decoration: none;
             transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background: rgba(37, 99, 235, 0.1);
         }
-        .dashboard-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        
+        .learn-more:hover {
+            background: rgba(37, 99, 235, 0.15);
+            transform: translateX(5px);
         }
-        .dashboard-card:hover {
+        
+        .learn-more i {
+            margin-left: 0.5rem;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .learn-more:hover i {
+            transform: translateX(3px);
+        }
+        
+        /* Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .animate-delay-100 {
+            animation-delay: 0.1s;
+        }
+        
+        .animate-delay-200 {
+            animation-delay: 0.2s;
+        }
+        
+        .animate-delay-300 {
+            animation-delay: 0.3s;
+        }
+        
+        .animate-delay-400 {
+            animation-delay: 0.4s;
+        }
+        
+        .animate-delay-500 {
+            animation-delay: 0.5s;
+        }
+        
+        .animate-delay-600 {
+            animation-delay: 0.6s;
+        }
+        
+        /* Decorations */
+        .abstract-shape {
+            position: absolute;
+            z-index: 0;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        .shape-1 {
+            top: 10%;
+            left: 5%;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #818cf8, #0ea5e9);
+            filter: blur(40px);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .shape-2 {
+            bottom: 15%;
+            right: 8%;
+            width: 100px;
+            height: 100px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            background: linear-gradient(135deg, #8b5cf6, #2563eb);
+            filter: blur(30px);
+            animation: float 7s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+        
+        .shape-3 {
+            top: 40%;
+            right: 15%;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
+            filter: blur(30px);
+            animation: float 5s ease-in-out infinite;
+            animation-delay: 2s;
+        }
+        /* Front Page Navigation */
+        .front-page-nav {
+            background-color: #1e293b; /* dark */
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 50;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        .front-page-nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .front-page-nav .nav-links a {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease;
+        }
+        .front-page-nav .nav-links a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        .front-page-nav .auth-buttons a {
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px; /* rounded-full */
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .front-page-nav .auth-buttons a.login-btn {
+            background-color: #2563eb; /* primary */
+            color: white;
+        }
+        .front-page-nav .auth-buttons a.login-btn:hover {
+            background-color: #1d4ed8; /* blue-700 */
+        }
+        .front-page-nav .auth-buttons a.register-btn {
+            border: 2px solid white;
+            color: white;
+        }
+        .front-page-nav .auth-buttons a.register-btn:hover {
+            background-color: white;
+            color: #2563eb;
+        }
+
+        /* Mobile Nav Toggle */
+        .mobile-nav-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .front-page-nav .nav-links,
+            .front-page-nav .auth-buttons {
+                display: none;
+                flex-direction: column;
+                position: fixed; /* Use fixed for full height overlay */
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh; /* Full viewport height */
+                background-color: #1e293b;
+                padding: 1rem;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                justify-content: center; /* Center items vertically in mobile menu */
+                align-items: center;
+            }
+            .front-page-nav .nav-links.open,
+            .front-page-nav .auth-buttons.open {
+                display: flex;
+            }
+            .front-page-nav .nav-links a,
+            .front-page-nav .auth-buttons a {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 1rem; /* More spacing for mobile links */
+                font-size: 1.5rem; /* Larger font size for mobile links */
+            }
+            .mobile-nav-toggle {
+                display: block;
+            }
+        }
+
+        /* Pricing Card Specifics */
+        .pricing-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            border: 2px solid transparent; /* Default transparent border */
+        }
+
+        .pricing-card.recommended {
+            border-color: #2563eb; /* Primary color border for recommended */
+            transform: scale(1.05); /* Slightly larger */
+            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.3); /* Stronger shadow */
+            position: relative; /* For "Popular" badge */
+            z-index: 10;
+        }
+        .pricing-card.recommended::before {
+            content: "POPULAR";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2563eb;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+
+        .pricing-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
-        .dropdown-content {
-            display: none;
-            transition: opacity 0.2s ease, transform 0.2s ease;
+        .pricing-card .price-tag {
+            font-size: 3rem; /* text-5xl */
+            font-weight: bold;
+            color: #1e293b; /* dark */
+            margin-bottom: 0.5rem;
         }
-        .dropdown:hover .dropdown-content {
-            display: block;
-            opacity: 0;
-            transform: translateY(-10px);
-            animation: fadeIn 0.3s forwards;
+        .pricing-card .price-tag span {
+            font-size: 1.5rem; /* smaller for currency/period */
+            font-weight: normal;
+            vertical-align: middle;
+            opacity: 0.8;
         }
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .chart-container {
-            height: 300px;
-        }
-        .vendor-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        .mikrotik-badge {
-            background-color: #ff7d00;
-            color: white;
-        }
-        .ubiquiti-badge {
-            background-color: #0559C9;
-            color: white;
-        }
-        .status-indicator {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 6px;
-        }
-        .status-online {
-            background-color: #10b981;
-        }
-        .status-offline {
-            background-color: #ef4444;
-        }
-        /* Mobile responsiveness for sidebar */
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                position: fixed;
-                height: 100vh; /* Full height on mobile */
-            }
-            .sidebar.active {
-                transform: translateX(0);
-            }
-            .content-section {
-                padding-top: 5rem; /* Adjust content padding for fixed header on mobile */
-            }
-        }
-        /* Hide all content sections by default, show only the active one */
-        .content-section {
-            display: none;
-        }
-        .content-section.active {
-            display: block;
-        }
-        /* Style for form inputs and selects */
-        .form-input {
-            border: 1px solid #e2e8f0; /* Tailwind's border-gray-300 */
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.375rem; /* Tailwind's rounded-md */
+        .pricing-card .features-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
             width: 100%;
-            font-size: 0.875rem; /* Tailwind's text-sm */
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Tailwind's shadow-sm */
-            transition: all 0.15s ease-in-out;
+            max-width: 250px; /* Constrain feature list width */
         }
-        .form-input:focus {
-            outline: none;
-            border-color: #2563eb; /* Tailwind's focus:border-primary */
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3); /* Tailwind's focus:ring-primary with opacity */
+        .pricing-card .features-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            color: #4b5563; /* gray-700 */
         }
-        .form-select {
-            appearance: none; /* Remove default arrow */
-            background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow */
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 1rem;
-            padding-right: 2.5rem; /* Space for the custom arrow */
+        .pricing-card .features-list li .fas {
+            color: #10b981; /* green-500 */
+            margin-right: 0.75rem;
+        }
+        .pricing-card .cta-button {
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+        .pricing-card .cta-button.primary-btn {
+            background-color: #2563eb;
+            color: white;
+        }
+        .pricing-card .cta-button.primary-btn:hover {
+            background-color: #1d4ed8;
+        }
+        .pricing-card .cta-button.secondary-btn {
+            background-color: #f1f5f9;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+        }
+        .pricing-card .cta-button.secondary-btn:hover {
+            background-color: #e2e8f0;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem; /* gap-8 */
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
-        /* Modal specific styles */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 100; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-            align-items: center;
-            justify-content: center;
+        /* FAQ specific styles */
+        .faq-item {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1rem;
+            overflow: hidden;
         }
-        .modal.open {
+        .faq-question {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.125rem; /* text-lg */
+            color: #1e293b;
             display: flex;
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto; /* Centered */
-            padding: 20px;
-            border-radius: 0.75rem; /* Tailwind's rounded-xl */
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-            position: relative;
-            max-width: 90%; /* Responsive width */
-            width: 500px; /* Max width for desktop */
-        }
-        .modal-close-button {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            color: #aaa;
-            font-size: 28px;
-            font-weight: bold;
+            justify-content: space-between;
+            align-items: center;
             cursor: pointer;
+            background-color: #f8fafc; /* light gray background */
+            border-bottom: 1px solid #e2e8f0;
+            transition: background-color 0.2s ease;
         }
-        .modal-close-button:hover,
-        .modal-close-button:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
+        .faq-question:hover {
+            background-color: #f1f5f9;
+        }
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            color: #4b5563;
+        }
+        .faq-answer.open {
+            max-height: 500px; /* Large enough to accommodate content */
+            padding: 1rem 1.5rem 1.25rem;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-icon.rotate {
+            transform: rotate(180deg);
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex">
-    <!-- Sidebar Navigation -->
-    <div class="sidebar bg-dark text-white w-64 min-h-screen fixed md:relative z-20 rounded-r-lg shadow-lg">
-        <div class="p-4 border-b border-gray-700 flex items-center gap-3">
-            <div class="bg-blue-600 p-2 rounded-lg">
-                <i class="fas fa-wifi text-xl"></i>
-            </div>
-            <div>
-                <h1 class="text-xl font-bold">Hotspot Manager</h1>
-                <p class="text-gray-400 text-sm mt-1">Admin Dashboard</p>
+<body class="bg-gray-50">
+    <!-- Front Page Navigation Bar -->
+    <nav id="front-page-nav" class="front-page-nav">
+        <div class="logo">
+            <i class="fas fa-network-wired text-primary text-2xl"></i>
+            <span>NetFlow Billing</span>
+        </div>
+        <button class="mobile-nav-toggle" id="front-nav-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links space-x-4 md:flex hidden">
+            <a href="#hero-section" class="nav-link">Home</a>
+            <a href="#services-section" class="nav-link">Services</a>
+            <a href="#why-us-section" class="nav-link">Why Us</a>
+            <a href="#pricing-section" class="nav-link">Pricing</a>
+            <a href="#faq-section" class="nav-link">FAQ</a>
+            <a href="#cta-section" class="nav-link">Contact</a>
+        </div>
+        <div class="auth-buttons space-x-3 md:flex hidden">
+            <!-- These links would typically point to your dashboard's login/register forms -->
+            <a href="hotspot-dashboard-pages.html?section=dashboard-content" class="login-btn">Login</a>
+            <a href="hotspot-dashboard-pages.html?section=register-content" class="register-btn">Register</a>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation Overlay (when toggled) -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-dark bg-opacity-95 z-40 hidden flex-col items-center justify-center space-y-8 text-white text-2xl">
+        <a href="#hero-section" class="nav-link" data-close-menu>Home</a>
+        <a href="#services-section" class="nav-link" data-close-menu>Services</a>
+        <a href="#why-us-section" class="nav-link" data-close-menu>Why Us</a>
+        <a href="#pricing-section" class="nav-link" data-close-menu>Pricing</a>
+        <a href="#faq-section" class="nav-link" data-close-menu>FAQ</a>
+        <a href="#cta-section" class="nav-link" data-close-menu>Contact</a>
+        <a href="hotspot-dashboard-pages.html?section=dashboard-content" class="login-btn text-white bg-primary hover:bg-blue-700">Login</a>
+        <a href="hotspot-dashboard-pages.html?section=register-content" class="register-btn text-white border-2 border-white hover:bg-white hover:text-primary">Register</a>
+        <button class="absolute top-4 right-4 text-white text-3xl" id="close-mobile-menu">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero-section" class="full-vh-section hero-section relative pt-20">
+        <div class="container mx-auto text-center px-4 md:px-6 z-10">
+            <p class="text-secondary text-lg font-semibold mb-3 animate-fade-in-down">
+                Your Wi-Fi, Simplified. Your Revenue, Amplified.
+            </p>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight animate-fade-in-down">
+                Revolutionize Your Hotspot Management with <span class="text-primary">NetFlow Billing</span>
+            </h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto mb-10 opacity-90 animate-fade-in-up">
+                A robust, easy-to-use billing system for public Wi-Fi. Manage users, control bandwidth, and automate billing effortlessly.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 animate-scale-in">
+                <a href="hotspot-dashboard-pages.html?section=register-content" class="px-8 py-4 bg-white text-primary font-bold rounded-full shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
+                    Start Your Free Trial Today!
+                </a>
+                <a href="admin.html?section=dashboard-content" class="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-full hover:bg-white hover:text-primary transition-all duration-300 transform hover:scale-105">
+                    Try Live Demo
+                </a>
             </div>
         </div>
+    </section>
+
+    <!-- Services Section - Bento Grid Style -->
+    <section id="services-section" class="py-20 pt-28 px-4 premium-section">
+        <!-- Abstract Shapes -->
+        <div class="abstract-shape shape-1"></div>
+        <div class="abstract-shape shape-2"></div>
+        <div class="abstract-shape shape-3"></div>
         
-        <nav class="p-2 mt-4">
-            <ul class="space-y-1">
-                <li>
-                    <a href="#" class="sidebar-link flex items-center gap-3 p-3 rounded-lg bg-primary text-white" data-target="dashboard-content">
+        <div class="container mx-auto max-w-7xl px-4">
+            <div class="section-header text-center mb-16">
+                <p class="text-primary font-semibold tracking-wide mb-4 uppercase text-sm">
+                    Premium Solutions
+                </p>
+                <h2 class="section-title text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                    Enterprise-Grade Hotspot Management
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Advanced tools designed to streamline your operations, maximize revenue, and deliver exceptional user experiences.
+                </p>
+            </div>
+            
+            <div class="premium-bento-grid">
+                <!-- Mobile Friendly -->
+                <div class="premium-card floating animate-delay-100">
+                    <div class="premium-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile-Optimized Access</h3>
+                    <p>
+                        Manage your entire network from any device. Our responsive dashboard adapts seamlessly to smartphones, tablets, and desktops.
+                    </p>
+                    <a href="#" class="learn-more">
+                        Learn more <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <div class="mt-6 w-full">
+                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://placehold.co/600x400/e0f2fe/2563eb?text=Mobile+Interface" alt="Mobile Dashboard">
+                    </div>
+                </div>
+                
+                <!-- Performance -->
+                <div class="premium-card floating animate-delay-200">
+                    <div class="premium-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Optimized Performance</h3>
+                    <p>
+                        Industry-leading speed and reliability with our distributed cloud architecture. Handle thousands of concurrent connections effortlessly.
+                    </p>
+                    <a href="#" class="learn-more">
+                        Learn more <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <div class="mt-6 w-full">
+                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://placehold.co/600x300/dbeafe/2563eb?text=Performance+Metrics" alt="Performance Graph">
+                    </div>
+                </div>
+                
+                <!-- Security -->
+                <div class="premium-card floating animate-delay-300">
+                    <div class="premium-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Military-Grade Security</h3>
+                    <p>
+                        End-to-end encryption, DDoS protection, and compliance with global security standards. Sleep well knowing your network is protected.
+                    </p>
+                    <a href="#" class="learn-more">
+                        Learn more <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <div class="mt-6 w-full flex justify-center">
+                        <img class="w-48 rounded-xl border border-gray-100 shadow-lg" src="https://placehold.co/300x300/ede9fe/8b5cf6?text=Security+Lock" alt="Security Lock">
+                    </div>
+                </div>
+                
+                <!-- APIs -->
+                <div class="premium-card floating animate-delay-400">
+                    <div class="premium-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Enterprise APIs</h3>
+                    <p>
+                        Powerful RESTful APIs for seamless integration with your existing systems. Automate workflows and extend functionality effortlessly.
+                    </p>
+                    <a href="#" class="learn-more">
+                        Learn more <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <div class="mt-6 w-full">
+                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://placehold.co/600x400/e0e7ff/4f46e5?text=API+Integration" alt="API Integration">
+                    </div>
+                </div>
+                
+                <!-- Reporting -->
+                <div class="premium-card floating animate-delay-500">
+                    <div class="premium-icon">
                         <i class="fas fa-chart-line"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white" data-target="hotspots-content">
-                        <i class="fas fa-wifi"></i>
-                        <span>Hotspots</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white" data-target="users-content">
-                        <i class="fas fa-users"></i>
-                        <span>Users</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white" data-target="vouchers-content">
-                        <i class="fas fa-ticket-alt"></i>
-                        <span>Vouchers</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white" data-target="bandwidth-content">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Bandwidth</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white" data-target="reports-content">
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Reports</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="sidebar-link flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white" data-target="settings-content">
-                        <i class="fas fa-cog"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-                <li class="mt-8">
-                    <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-    
-    <!-- Main Content -->
-    <div class="flex-1 flex flex-col overflow-hidden">
-        <!-- Top Bar -->
-        <header class="bg-white border-b border-gray-200 p-4 flex items-center justify-between shadow-sm">
-            <div class="flex items-center">
-                <button class="md:hidden mr-3 text-gray-600" id="menu-toggle">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-                <h2 class="text-xl font-semibold text-gray-800" id="page-title">Dashboard</h2>
-            </div>
-            <div class="flex items-center gap-4">
-                <div class="relative">
-                    <button class="p-2 rounded-full hover:bg-gray-100">
-                        <i class="fas fa-bell text-gray-600"></i>
-                    </button>
-                    <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold">A</div>
-                    <span class="hidden md:inline text-gray-700">Admin</span>
-                </div>
-            </div>
-        </header>
-        
-        <!-- Dashboard Content Section -->
-        <main id="dashboard-content" class="flex-1 overflow-y-auto p-4 bg-gray-50 content-section active">
-            <!-- Dashboard Stats -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <div class="dashboard-card bg-white rounded-xl shadow p-5 border-l-4 border-blue-500">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-gray-500 text-sm font-medium">Active Hotspots</h3>
-                            <p class="text-2xl font-bold mt-1">24</p>
-                        </div>
-                        <div class="p-3 rounded-lg bg-blue-100 text-blue-600">
-                            <i class="fas fa-wifi text-xl"></i>
-                        </div>
                     </div>
-                    <div class="mt-4">
-                        <div class="flex items-center text-sm text-gray-500">
-                            <span class="status-indicator status-online"></span>
-                            <span>18 online</span>
-                        </div>
+                    <h3>Advanced Analytics</h3>
+                    <p>
+                        Real-time insights with customizable dashboards. Track usage patterns, revenue streams, and network performance at a glance.
+                    </p>
+                    <a href="#" class="learn-more">
+                        Learn more <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <div class="mt-6 w-full">
+                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://placehold.co/600x300/dbeafe/2563eb?text=Analytics+Dashboard" alt="Reports Chart">
                     </div>
                 </div>
                 
-                <div class="dashboard-card bg-white rounded-xl shadow p-5 border-l-4 border-green-500">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-gray-500 text-sm font-medium">Active Users</h3>
-                            <p class="text-2xl font-bold mt-1">187</p>
-                        </div>
-                        <div class="p-3 rounded-lg bg-green-100 text-green-600">
-                            <i class="fas fa-users text-xl"></i>
-                        </div>
+                <!-- Compatibility -->
+                <div class="premium-card floating animate-delay-600">
+                    <div class="premium-icon">
+                        <i class="fas fa-plug"></i>
                     </div>
-                    <div class="mt-4">
-                        <div class="flex items-center text-sm text-gray-500">
-                            <i class="fas fa-arrow-up text-green-500 mr-1"></i>
-                            <span>42 new today</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="dashboard-card bg-white rounded-xl shadow p-5 border-l-4 border-purple-500">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-gray-500 text-sm font-medium">Data Usage</h3>
-                            <p class="text-2xl font-bold mt-1">342 GB</p>
-                        </div>
-                        <div class="p-3 rounded-lg bg-purple-100 text-purple-600">
-                            <i class="fas fa-database text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <div class="flex items-center text-sm text-gray-500">
-                            <i class="fas fa-exchange-alt text-blue-500 mr-1"></i>
-                            <span>Daily average</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="dashboard-card bg-white rounded-xl shadow p-5 border-l-4 border-yellow-500">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-gray-500 text-sm font-medium">Revenue</h3>
-                            <p class="text-2xl font-bold mt-1">$1,250</p>
-                        </div>
-                        <div class="p-3 rounded-lg bg-yellow-100 text-yellow-600">
-                            <i class="fas fa-money-bill-wave text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <div class="flex items-center text-sm text-gray-500">
-                            <i class="fas fa-arrow-up text-green-500 mr-1"></i>
-                            <span>15% from last week</span>
-                        </div>
+                    <h3>Vendor Flexibility</h3>
+                    <p>
+                        Seamless integration with MikroTik, Ubiquiti, Cisco, and more. Our platform works with your existing infrastructure.
+                    </p>
+                    <a href="#" class="learn-more">
+                        Learn more <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <div class="mt-6 w-full">
+                        <img class="w-full rounded-xl border border-gray-100 shadow-lg" src="https://placehold.co/600x300/f0fdfa/0d9488?text=Router+Compatibility" alt="Compatible Devices">
                     </div>
                 </div>
             </div>
             
-            <!-- Charts Row -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                <!-- Active Users Chart -->
-                <div class="bg-white rounded-xl shadow p-5">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-semibold">Active Users (Last 7 Days)</h3>
-                        <div class="relative">
-                            <button class="text-gray-500 hover:text-gray-700">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="usersChart"></canvas>
-                    </div>
-                </div>
-                
-                <!-- Data Usage Chart -->
-                <div class="bg-white rounded-xl shadow p-5">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-semibold">Data Usage (GB)</h3>
-                        <div class="relative">
-                            <button class="text-gray-500 hover:text-gray-700">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="dataChart"></canvas>
-                    </div>
-                </div>
+            <div class="mt-20 text-center">
+                <a href="#" class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary to-accent text-white font-bold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                    <i class="fas fa-rocket mr-3"></i> Start Your Free Enterprise Trial
+                </a>
+                <p class="mt-4 text-gray-600 text-sm">
+                    Experience premium features with no commitment. 14-day trial, no credit card required.
+                </p>
             </div>
-            
-            <!-- Recent Activity -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Active Hotspots -->
-                <div class="bg-white rounded-xl shadow">
-                    <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
-                        <h3 class="text-lg font-medium text-gray-900">Active Hotspots</h3>
-                        <button class="text-sm px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700">
-                            Manage
-                        </button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hotspot</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vendor</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Users</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-                                                <i class="fas fa-wifi"></i>
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">Main Office</div>
-                                                <div class="text-sm text-gray-500">192.168.1.1</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Nairobi</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="vendor-badge mikrotik-badge">MikroTik</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="flex items-center">
-                                            <span class="status-indicator status-online"></span>
-                                            <span>Online</span>
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">42</td>
-                                </tr>
-                                
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                                                <i class="fas fa-wifi"></i>
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">Coffee Shop</div>
-                                                <div class="text-sm text-gray-500">192.168.2.1</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Kiambu</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="vendor-badge ubiquiti-badge">Ubiquiti</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="flex items-center">
-                                            <span class="status-indicator status-online"></span>
-                                            <span>Online</span>
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">28</td>
-                                </tr>
-                                
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-red-100 flex items-center justify-center text-red-600">
-                                                <i class="fas fa-wifi"></i>
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">Retail Store</div>
-                                                <div class="text-sm text-gray-500">192.168.3.1</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="vendor-badge mikrotik-badge">MikroTik</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="flex items-center">
-                                            <span class="status-indicator status-offline"></span>
-                                            <span>Offline</span>
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">0</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Vendor Compatibility Section -->
-            <div class="mt-6 bg-white rounded-xl shadow">
-                <div class="px-5 py-4 border-b border-gray-200">
-                    <h3 class="text-lg font-medium text-gray-900">Router Compatibility</h3>
-                </div>
-                <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="border rounded-lg p-4">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="bg-orange-500 p-2 rounded-lg">
-                                <i class="fas fa-router text-white text-xl"></i>
-                            </div>
-                            <h4 class="text-lg font-semibold">MikroTik Routers</h4>
-                        </div>
-                        <ul class="space-y-2 text-gray-600">
-                            <li class="flex items-center gap-2">
-                                <i class="fas fa-check-circle text-green-500"></i>
-                                <span>Full RouterOS API integration</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <i class="fas fa-check-circle text-green-500"></i>
-                                <span>User management via /ip/hotspot/user</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <i class="fas fa-check-circle text-green-500"></i>
-                                <span>Bandwidth control with Queue Trees</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <i class="fas fa-check-circle text-green-500"></i>
-                                <span>Real-time monitoring</span>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="border rounded-lg p-4">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="bg-blue-800 p-2 rounded-lg">
-                                <i class="fas fa-satellite-dish text-white text-xl"></i>
-                            </div>
-                            <h4 class="text-lg font-semibold">Ubiquiti Devices</h4>
-                        </div>
-                        <ul class="space-y-2 text-gray-600">
-                            <li class="flex items-center gap-2">
-                                <i class="fas fa-check-circle text-green-500"></i>
-                                <span>UniFi Controller API integration</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <i class="fas fa-check-circle text-green-500"></i>
-                                <span>Guest portal customization</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <i class="fas fa-check-circle text-green-500"></i>
-                                <span>User Groups for bandwidth profiles</span>
-                            </li>
-                            <li class="flex items-center gap-2">
-                                <i class="fas fa-check-circle text-green-500"></i>
-                                <span>Voucher system support</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </main>
+        </div>
+    </section>
 
-        <!-- Hotspots Content Section -->
-        <main id="hotspots-content" class="flex-1 overflow-y-auto p-4 bg-gray-50 content-section">
-            <div class="bg-white rounded-xl shadow p-5 mt-6">
-                <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
-                    <h3 class="text-lg font-medium text-gray-900">All Hotspots</h3>
-                    <button id="openHotspotModal" class="text-sm px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700">
-                        <i class="fas fa-plus mr-2"></i>Add New Hotspot
-                    </button>
+
+    <!-- Why Us Section -->
+    <section id="why-us-section" class="full-vh-section bg-dark text-white py-16 pt-20">
+        <div class="container mx-auto px-4 md:px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-8">
+                Why NetFlow Billing is Your Best Choice
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+                <div class="bg-gray-800 rounded-xl p-6 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                    <div class="text-primary mb-4 text-4xl"><i class="fas fa-hand-holding-usd"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Cost-Effective Solutions</h3>
+                    <p class="text-gray-300">Get powerful billing features without breaking the bank. Designed for maximum ROI.</p>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hotspot Name</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IP Address</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vendor</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Connected Users</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Main Office Hotspot</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">192.168.1.1</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Nairobi CBD</td>
-                                <td class="px-6 py-4 whitespace-nowrap"><span class="vendor-badge mikrotik-badge">MikroTik</span></td>
-                                <td class="px-6 py-4 whitespace-nowrap"><span class="flex items-center"><span class="status-indicator status-online"></span>Online</span></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">42</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#" class="text-primary hover:text-blue-900 mr-3">Edit</a>
-                                    <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Coffee Shop Hotspot</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">192.168.2.1</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Kiambu Town</td>
-                                <td class="px-6 py-4 whitespace-nowrap"><span class="vendor-badge ubiquiti-badge">Ubiquiti</span></td>
-                                <td class="px-6 py-4 whitespace-nowrap"><span class="flex items-center"><span class="status-indicator status-online"></span>Online</span></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">28</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#" class="text-primary hover:text-blue-900 mr-3">Edit</a>
-                                    <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Retail Store Hotspot</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">192.168.3.1</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Thika Main St.</td>
-                                <td class="px-6 py-4 whitespace-nowrap"><span class="vendor-badge mikrotik-badge">MikroTik</span></td>
-                                <td class="px-6 py-4 whitespace-nowrap"><span class="flex items-center"><span class="status-indicator status-offline"></span>Offline</span></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">0</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#" class="text-primary hover:text-blue-900 mr-3">Edit</a>
-                                    <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                                </td>
-                            </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Hotel Lobby WiFi</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10.0.0.1</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mombasa Beach</td>
-                                <td class="px-6 py-4 whitespace-nowrap"><span class="vendor-badge ubiquiti-badge">Ubiquiti</span></td>
-                                <td class="px-6 py-4 whitespace-nowrap"><span class="flex items-center"><span class="status-indicator status-online"></span>Online</span></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">75</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#" class="text-primary hover:text-blue-900 mr-3">Edit</a>
-                                    <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="bg-gray-800 rounded-xl p-6 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                    <div class="text-green-400 mb-4 text-4xl"><i class="fas fa-shield-alt"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Unmatched Reliability</h3>
+                    <p class="text-gray-300">Our system is built for uptime, ensuring your hotspot operations run smoothly 24/7.</p>
+                </div>
+                <div class="bg-gray-800 rounded-xl p-6 shadow-lg transform hover:scale-105 transition-transform duration-300">
+                    <div class="text-purple-400 mb-4 text-4xl"><i class="fas fa-headset"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Dedicated Support</h3>
+                    <p class="text-gray-300">Our team is always ready to assist you, ensuring a seamless experience from setup to scaling.</p>
                 </div>
             </div>
-        </main>
+            <p class="text-lg mt-10 max-w-2xl mx-auto opacity-90">
+                <i class="fas fa-quote-left text-primary mr-2"></i>
+                NetFlow Billing transformed our operations. The intuitive interface and powerful features made managing our hotspots a breeze.
+                <i class="fas fa-quote-right text-primary ml-2"></i>
+                <br>
+                <span class="font-semibold text-primary mt-4 block">— Jane D., IT Manager, Grand Hotel Nairobi</span>
+            </p>
+        </div>
+    </section>
 
-        <!-- Users Content Section -->
-        <main id="users-content" class="flex-1 overflow-y-auto p-4 bg-gray-50 content-section">
-            <div class="bg-white rounded-xl shadow p-5 mt-6">
-                <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
-                    <h3 class="text-lg font-medium text-gray-900">Hotspot Users</h3>
-                    <button id="openUserModal" class="text-sm px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700">
-                        <i class="fas fa-user-plus mr-2"></i>Add New User
-                    </button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data Used</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Plan</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Login</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">john.doe</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">john.doe@example.com</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12.5 GB</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Premium 24h</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2024-06-10 10:30</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#" class="text-primary hover:text-blue-900 mr-3">Edit</a>
-                                    <a href="#" class="text-red-600 hover:text-red-900">Suspend</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">jane.smith</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">jane.smith@example.com</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">0 GB</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Free 1h</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">N/A</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#" class="text-primary hover:text-blue-900 mr-3">Edit</a>
-                                    <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">mike.brown</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">mike.brown@example.com</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Inactive</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">5.8 GB</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Standard 7d</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2024-05-25 14:00</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#" class="text-primary hover:text-blue-900 mr-3">Edit</a>
-                                    <a href="#" class="text-red-600 hover:text-red-900">Activate</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
+    <!-- Pricing Section -->
+    <section id="pricing-section" class="full-vh-section bg-gray-100 py-16 pt-20">
+        <div class="container mx-auto px-4 md:px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-6">
+                Flexible Pricing for Every Business
+            </h2>
+            <p class="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
+                Choose the perfect plan that fits your needs and scale as your Wi-Fi network grows. Transparent pricing, no hidden fees.
+            </p>
 
-        <!-- Vouchers Content Section -->
-        <main id="vouchers-content" class="flex-1 overflow-y-auto p-4 bg-gray-50 content-section">
-            <div class="bg-white rounded-xl shadow p-5 mt-6">
-                <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
-                    <h3 class="text-lg font-medium text-gray-900">Generated Vouchers</h3>
-                    <button id="openVoucherModal" class="text-sm px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-700">
-                        <i class="fas fa-ticket-alt mr-2"></i>Generate New Vouchers
-                    </button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Code</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bandwidth Limit</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Used By</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Generated On</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">VOUCHER-12345</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">24 hours</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10 Mbps</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">user123</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2024-06-08</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#" class="text-primary hover:text-blue-900 mr-3">View</a>
-                                    <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">VOUCHER-67890</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">7 days</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Unlimited</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Unused</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">N/A</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2024-06-01</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#" class="text-primary hover:text-blue-900 mr-3">View</a>
-                                    <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">VOUCHER-ABCDE</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1 hour</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">5 Mbps</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Expired</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">guest_user</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2024-05-20</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#" class="text-primary hover:text-blue-900 mr-3">View</a>
-                                    <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
-
-        <!-- Bandwidth Content Section -->
-        <main id="bandwidth-content" class="flex-1 overflow-y-auto p-4 bg-gray-50 content-section">
-            <div class="bg-white rounded-xl shadow p-5 mb-6">
-                <div class="px-5 py-4 border-b border-gray-200">
-                    <h3 class="text-lg font-medium text-gray-900">Overall Bandwidth Usage</h3>
-                </div>
-                <div class="p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="border rounded-lg p-4 text-center">
-                        <p class="text-gray-500 text-sm">Total Download</p>
-                        <p class="text-3xl font-bold text-primary mt-2">750 GB</p>
+            <div class="pricing-grid">
+                <!-- Basic Plan Card -->
+                <div class="pricing-card">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Basic</h3>
+                    <p class="text-gray-500 text-sm mb-4">Ideal for small cafes & personal use</p>
+                    <div class="price-tag">
+                        <span>Ksh</span> 999<span>/month</span>
                     </div>
-                    <div class="border rounded-lg p-4 text-center">
-                        <p class="text-gray-500 text-sm">Total Upload</p>
-                        <p class="text-3xl font-bold text-secondary mt-2">320 GB</p>
-                    </div>
-                    <div class="border rounded-lg p-4 text-center">
-                        <p class="text-gray-500 text-sm">Average Daily Usage</p>
-                        <p class="text-3xl font-bold text-accent mt-2">35 GB</p>
-                    </div>
-                </div>
-                <div class="chart-container mt-6">
-                    <canvas id="bandwidthFlowChart"></canvas>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow p-5">
-                <div class="px-5 py-4 border-b border-gray-200">
-                    <h3 class="text-lg font-medium text-gray-900">Top Users by Data Usage (Current Month)</h3>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hotspot</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Data (GB)</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">power_user_1</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Main Office</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">98.2</td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">stream_fanatic</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Coffee Shop</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">72.1</td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">3</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">remote_worker</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Main Office</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">55.6</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
-
-        <!-- Reports Content Section -->
-        <main id="reports-content" class="flex-1 overflow-y-auto p-4 bg-gray-50 content-section">
-            <div class="bg-white rounded-xl shadow p-5">
-                <div class="px-5 py-4 border-b border-gray-200">
-                    <h3 class="text-lg font-medium text-gray-900">Generate Reports</h3>
-                    <p class="text-sm text-gray-600 mt-1">Select parameters and generate various performance and usage reports.</p>
-                </div>
-                <form class="p-5 space-y-4">
-                    <div>
-                        <label for="reportType" class="block text-sm font-medium text-gray-700 mb-1">Report Type</label>
-                        <select id="reportType" class="form-input form-select">
-                            <option>User Activity Report</option>
-                            <option>Hotspot Performance Report</option>
-                            <option>Voucher Usage Report</option>
-                            <option>Revenue Report</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="reportDateRange" class="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
-                        <input type="text" id="reportDateRange" class="form-input" placeholder="e.g., Last 30 days or YYYY-MM-DD to YYYY-MM-DD">
-                    </div>
-                    <div>
-                        <label for="hotspotFilter" class="block text-sm font-medium text-gray-700 mb-1">Filter by Hotspot (Optional)</label>
-                        <select id="hotspotFilter" class="form-input form-select">
-                            <option value="">All Hotspots</option>
-                            <option value="main-office">Main Office Hotspot</option>
-                            <option value="coffee-shop">Coffee Shop Hotspot</option>
-                            <option value="retail-store">Retail Store Hotspot</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="outputFormat" class="block text-sm font-medium text-gray-700 mb-1">Output Format</label>
-                        <select id="outputFormat" class="form-input form-select">
-                            <option>PDF</option>
-                            <option>CSV</option>
-                            <option>JSON</option>
-                        </select>
-                    </div>
-                    <div class="pt-2">
-                        <button type="submit" class="px-6 py-2 bg-primary text-white font-semibold rounded-md hover:bg-blue-700 shadow-md">
-                            <i class="fas fa-file-export mr-2"></i>Generate Report
-                        </button>
-                    </div>
-                </form>
-                <div class="mt-8 px-5 py-4 border-t border-gray-200">
-                    <h4 class="text-md font-medium text-gray-800">Recent Reports</h4>
-                    <ul class="mt-4 space-y-3">
-                        <li class="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
-                            <span class="text-gray-700">User Activity Report - May 2024</span>
-                            <a href="#" class="text-primary hover:underline">Download PDF</a>
-                        </li>
-                        <li class="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
-                            <span class="text-gray-700">Hotspot Performance - Q1 2024</span>
-                            <a href="#" class="text-primary hover:underline">Download CSV</a>
-                        </li>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> Up to 5 Hotspots</li>
+                        <li><i class="fas fa-check-circle"></i> 50 Active Users</li>
+                        <li><i class="fas fa-check-circle"></i> Basic Analytics</li>
+                        <li><i class="fas fa-check-circle"></i> Email Support</li>
                     </ul>
+                    <a href="hotspot-dashboard-pages.html?section=register-content" class="cta-button secondary-btn">
+                        Get Started
+                    </a>
+                </div>
+
+                <!-- Pro Plan Card (Recommended) -->
+                <div class="pricing-card recommended">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Pro</h3>
+                    <p class="text-gray-500 text-sm mb-4">Best for growing businesses & hotels</p>
+                    <div class="price-tag">
+                        <span>Ksh</span> 2,999<span>/month</span>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> Unlimited Hotspots</li>
+                        <li><i class="fas fa-check-circle"></i> 500 Active Users</li>
+                        <li><i class="fas fa-check-circle"></i> Advanced Analytics & Reports</li>
+                        <li><i class="fas fa-check-circle"></i> Voucher Generation</li>
+                        <li><i class="fas fa-check-circle"></i> Priority Email & Chat Support</li>
+                    </ul>
+                    <a href="hotspot-dashboard-pages.html?section=register-content" class="cta-button primary-btn">
+                        Choose Pro Plan
+                    </a>
+                </div>
+
+                <!-- Enterprise Plan Card -->
+                <div class="pricing-card">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Enterprise</h3>
+                    <p class="text-gray-500 text-sm mb-4">For large scale operations & ISPs</p>
+                    <div class="price-tag">
+                        <span>Ksh</span> 7,999<span>/month</span>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> Unlimited Hotspots</li>
+                        <li><i class="fas fa-check-circle"></i> Unlimited Active Users</li>
+                        <li><i class="fas fa-check-circle"></i> Custom Integrations</li>
+                        <li><i class="fas fa-check-circle"></i> Dedicated Account Manager</li>
+                        <li><i class="fas fa-check-circle"></i> 24/7 Phone Support</li>
+                    </ul>
+                    <a href="#cta-section" class="cta-button secondary-btn">
+                        Contact Sales
+                    </a>
                 </div>
             </div>
-        </main>
+        </div>
+    </section>
 
-        <!-- Settings Content Section -->
-        <main id="settings-content" class="flex-1 overflow-y-auto p-4 bg-gray-50 content-section">
-            <div class="bg-white rounded-xl shadow p-5">
-                <div class="px-5 py-4 border-b border-gray-200">
-                    <h3 class="text-lg font-medium text-gray-900">System Settings</h3>
-                    <p class="text-sm text-gray-600 mt-1">Manage application preferences, integrations, and user roles.</p>
+    <!-- FAQ Section -->
+    <section id="faq-section" class="full-vh-section bg-gray-50 py-16 pt-20">
+        <div class="container mx-auto px-4 md:px-6">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-center text-gray-800 mb-12">
+                Frequently Asked Questions
+            </h2>
+            <div class="max-w-3xl mx-auto">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What is NetFlow Billing?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>NetFlow Billing is a comprehensive hotspot management and billing system designed for businesses of all sizes. It allows you to manage users, control bandwidth, generate vouchers, and track revenue for your public Wi-Fi networks.</p>
+                    </div>
                 </div>
-                <form class="p-5 space-y-6">
-                    <div>
-                        <h4 class="text-md font-medium text-gray-800 mb-3">General Settings</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label for="systemName" class="block text-sm font-medium text-gray-700">System Name</label>
-                                <input type="text" id="systemName" class="form-input" value="Hotspot Manager PRO">
-                            </div>
-                            <div>
-                                <label for="currency" class="block text-sm font-medium text-gray-700">Currency</label>
-                                <select id="currency" class="form-input form-select">
-                                    <option>KES - Kenyan Shilling</option>
-                                    <option>USD - US Dollar</option>
-                                    <option>EUR - Euro</option>
-                                </select>
-                            </div>
-                             <div>
-                                <label for="timezone" class="block text-sm font-medium text-gray-700">Timezone</label>
-                                <select id="timezone" class="form-input form-select">
-                                    <option>Africa/Nairobi (EAT)</option>
-                                    <option>Europe/London (GMT)</option>
-                                    <option>America/New_York (EST)</option>
-                                </select>
-                            </div>
-                             <div>
-                                <label for="defaultLanguage" class="block text-sm font-medium text-gray-700">Default Language</label>
-                                <select id="defaultLanguage" class="form-input form-select">
-                                    <option>English</option>
-                                    <option>Swahili</option>
-                                    <option>French</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div>
-                        <h4 class="text-md font-medium text-gray-800 mb-3">Integration Settings</h4>
-                        <div class="space-y-4">
-                            <div class="border p-4 rounded-lg bg-gray-50">
-                                <p class="font-medium text-gray-900 mb-2">MikroTik API Configuration</p>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label for="mikrotikIP" class="block text-sm font-medium text-gray-700 mb-1">Router IP</label>
-                                        <input type="text" id="mikrotikIP" class="form-input" placeholder="e.g., 192.168.88.1">
-                                    </div>
-                                    <div>
-                                        <label for="mikrotikUser" class="block text-sm font-medium text-gray-700 mb-1">API Username</label>
-                                        <input type="text" id="mikrotikUser" class="form-input" placeholder="e.g., api_user">
-                                    </div>
-                                    <div class="md:col-span-2">
-                                        <label for="mikrotikPassword" class="block text-sm font-medium text-gray-700 mb-1">API Password</label>
-                                        <input type="password" id="mikrotikPassword" class="form-input" placeholder="********">
-                                    </div>
-                                    <div class="md:col-span-2 flex items-center mt-2">
-                                        <input type="checkbox" id="mikrotikEnabled" class="h-4 w-4 text-primary rounded border-gray-300 focus:ring-primary mr-2">
-                                        <label for="mikrotikEnabled" class="text-sm font-medium text-gray-700">Enable MikroTik Integration</label>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="border p-4 rounded-lg bg-gray-50">
-                                <p class="font-medium text-gray-900 mb-2">Ubiquiti UniFi API Configuration</p>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label for="unifiControllerIP" class="block text-sm font-medium text-gray-700 mb-1">Controller IP/Hostname</label>
-                                        <input type="text" id="unifiControllerIP" class="form-input" placeholder="e.g., 192.168.1.100">
-                                    </div>
-                                    <div>
-                                        <label for="unifiPort" class="block text-sm font-medium text-gray-700 mb-1">Controller Port</label>
-                                        <input type="number" id="unifiPort" class="form-input" value="8443" placeholder="e.g., 8443">
-                                    </div>
-                                    <div>
-                                        <label for="unifiUser" class="block text-sm font-medium text-gray-700 mb-1">API Username</label>
-                                        <input type="text" id="unifiUser" class="form-input" placeholder="e.g., unifi_api">
-                                    </div>
-                                    <div>
-                                        <label for="unifiPassword" class="block text-sm font-medium text-gray-700 mb-1">API Password</label>
-                                        <input type="password" id="unifiPassword" class="form-input" placeholder="********">
-                                    </div>
-                                    <div class="md:col-span-2 flex items-center mt-2">
-                                        <input type="checkbox" id="unifiEnabled" class="h-4 w-4 text-primary rounded border-gray-300 focus:ring-primary mr-2">
-                                        <label for="unifiEnabled" class="text-sm font-medium text-gray-700">Enable UniFi Integration</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Which router brands does NetFlow Billing support?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Our system seamlessly integrates with leading router brands, including MikroTik and Ubiquiti. We are continuously working to expand our compatibility to support more devices.</p>
                     </div>
+                </div>
 
-                    <div>
-                        <h4 class="text-md font-medium text-gray-800 mb-3">User Management</h4>
-                        <div class="space-y-4">
-                            <div class="border p-3 rounded-lg bg-gray-50 flex items-center justify-between">
-                                <div>
-                                    <p class="font-medium text-gray-900">User Roles and Permissions</p>
-                                    <p class="text-sm text-gray-600">Define access levels for different administrators.</p>
-                                </div>
-                                <button type="button" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 text-sm">Manage Roles</button>
-                            </div>
-                             <div class="border p-3 rounded-lg bg-gray-50 flex items-center justify-between">
-                                <div>
-                                    <p class="font-medium text-gray-900">Authentication Methods</p>
-                                    <p class="text-sm text-gray-600">Configure allowed login methods (e.g., username/password, social login).</p>
-                                </div>
-                                <button type="button" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 text-sm">Configure</button>
-                            </div>
-                        </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Is there a free trial available?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, we offer a free trial period so you can experience the full capabilities of NetFlow Billing before committing to a plan. Sign up today to get started!</p>
                     </div>
+                </div>
 
-                    <div class="flex justify-end pt-4 border-t border-gray-200">
-                        <button type="submit" class="px-6 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 shadow-md">
-                            <i class="fas fa-save mr-2"></i>Save Changes
-                        </button>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How does the billing system work?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Our billing system allows you to create various service plans, including timed access, data usage limits, and speed tiers. You can generate unique vouchers or directly manage user accounts for automated billing.</p>
                     </div>
-                </form>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What kind of support do you offer?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We provide comprehensive support via email, live chat, and for our Enterprise clients, dedicated phone support and account managers. Our team is here to help you every step of the way.</p>
+                    </div>
+                </div>
             </div>
-        </main>
-    </div>
-    
-    <!-- Mobile Menu Overlay -->
-    <div class="fixed inset-0 z-10 bg-black bg-opacity-50 hidden" id="overlay"></div>
-
-    <!-- Modals -->
-    <!-- Add Hotspot Modal -->
-    <div id="hotspotModal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close-button" data-modal="hotspotModal">&times;</span>
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Add New Hotspot</h3>
-            <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label for="modalHotspotName" class="block text-sm font-medium text-gray-700 mb-1">Hotspot Name</label>
-                    <input type="text" id="modalHotspotName" class="form-input" placeholder="e.g., Main Office Hotspot">
-                </div>
-                <div>
-                    <label for="modalIpAddress" class="block text-sm font-medium text-gray-700 mb-1">IP Address</label>
-                    <input type="text" id="modalIpAddress" class="form-input" placeholder="e.g., 192.168.1.1">
-                </div>
-                <div>
-                    <label for="modalHotspotLocation" class="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                    <input type="text" id="modalHotspotLocation" class="form-input" placeholder="e.g., Nairobi CBD">
-                </div>
-                <div>
-                    <label for="modalHotspotVendor" class="block text-sm font-medium text-gray-700 mb-1">Vendor</label>
-                    <select id="modalHotspotVendor" class="form-input form-select">
-                        <option value="">Select Vendor</option>
-                        <option value="mikrotik">MikroTik</option>
-                        <option value="ubiquiti">Ubiquiti</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                <div class="md:col-span-2 flex justify-end gap-3 mt-4">
-                    <button type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300" data-modal="hotspotModal">
-                        Cancel
-                    </button>
-                    <button type="submit" class="px-4 py-2 bg-primary text-white font-semibold rounded-md hover:bg-blue-700">
-                        <i class="fas fa-plus-circle mr-2"></i>Add Hotspot
-                    </button>
-                </div>
-            </form>
         </div>
-    </div>
+    </section>
 
-    <!-- Add User Modal -->
-    <div id="userModal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close-button" data-modal="userModal">&times;</span>
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Add New User</h3>
-            <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label for="modalUsername" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-                    <input type="text" id="modalUsername" class="form-input" placeholder="e.g., newuser123">
-                </div>
-                <div>
-                    <label for="modalUserEmail" class="block text-sm font-medium text-gray-700 mb-1">Email (Optional)</label>
-                    <input type="email" id="modalUserEmail" class="form-input" placeholder="e.g., user@example.com">
-                </div>
-                <div>
-                    <label for="modalUserPassword" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input type="password" id="modalUserPassword" class="form-input" placeholder="********">
-                </div>
-                <div>
-                    <label for="modalUserPlan" class="block text-sm font-medium text-gray-700 mb-1">Service Plan</label>
-                    <select id="modalUserPlan" class="form-input form-select">
-                        <option value="">Select Plan</option>
-                        <option value="free">Free 1 Hour</option>
-                        <option value="daily">Daily 10 Mbps</option>
-                        <option value="weekly">Weekly 20 Mbps</option>
-                        <option value="monthly">Monthly Unlimited</option>
-                    </select>
-                </div>
-                <div class="md:col-span-2 flex justify-end gap-3 mt-4">
-                    <button type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300" data-modal="userModal">
-                        Cancel
-                    </button>
-                    <button type="submit" class="px-4 py-2 bg-primary text-white font-semibold rounded-md hover:bg-blue-700">
-                        <i class="fas fa-user-plus mr-2"></i>Add User
-                    </button>
-                </div>
-            </form>
+    <!-- Call to Action Section -->
+    <section id="cta-section" class="full-vh-section bg-gradient-to-r from-primary to-secondary text-white py-16 pt-20">
+        <div class="container mx-auto text-center px-4 md:px-6">
+            <h2 class="text-3xl md:text-5xl font-extrabold mb-6 leading-tight">
+                Ready to Transform Your Wi-Fi Business?
+            </h2>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto mb-10 opacity-90">
+                Join hundreds of successful businesses leveraging NetFlow Billing for superior hotspot management and increased profitability.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <a href="hotspot-dashboard-pages.html?section=register-content" class="px-8 py-4 bg-white text-primary font-bold rounded-full shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
+                    Sign Up Now – It's Free!
+                </a>
+                <a href="#contact-form-section" class="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-full hover:bg-white hover:text-primary transition-all duration-300 transform hover:scale-105">
+                    Have Questions? Contact Us
+                </a>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Generate Voucher Modal -->
-    <div id="voucherModal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close-button" data-modal="voucherModal">&times;</span>
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Generate New Vouchers</h3>
-            <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label for="modalVoucherQuantity" class="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
-                    <input type="number" id="modalVoucherQuantity" class="form-input" min="1" value="10" placeholder="Number of vouchers">
-                </div>
-                <div>
-                    <label for="modalVoucherDuration" class="block text-sm font-medium text-gray-700 mb-1">Duration</label>
-                    <select id="modalVoucherDuration" class="form-input form-select">
-                        <option value="1h">1 Hour</option>
-                        <option value="24h">24 Hours</option>
-                        <option value="7d">7 Days</option>
-                        <option value="30d">30 Days</option>
-                        <option value="unlimited">Unlimited</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="modalVoucherBandwidth" class="block text-sm font-medium text-gray-700 mb-1">Bandwidth Limit</label>
-                    <select id="modalVoucherBandwidth" class="form-input form-select">
-                        <option value="5">5 Mbps</option>
-                        <option value="10">10 Mbps</option>
-                        <option value="20">20 Mbps</option>
-                        <option value="unlimited">Unlimited</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="modalVoucherPrefix" class="block text-sm font-medium text-gray-700 mb-1">Prefix (Optional)</label>
-                    <input type="text" id="modalVoucherPrefix" class="form-input" placeholder="e.g., WIFI-">
-                </div>
-                <div class="md:col-span-2 flex justify-end gap-3 mt-4">
-                    <button type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300" data-modal="voucherModal">
-                        Cancel
-                    </button>
-                    <button type="submit" class="px-4 py-2 bg-primary text-white font-semibold rounded-md hover:bg-blue-700">
-                        <i class="fas fa-magic mr-2"></i>Generate Vouchers
-                    </button>
-                </div>
-            </form>
+    <!-- Footer -->
+    <footer class="bg-dark text-gray-400 py-8 px-4 text-center text-sm">
+        <div class="container mx-auto">
+            <p>&copy; 2024 NetFlow Billing. All rights reserved.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="#" class="hover:text-white transition-colors duration-200"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-white transition-colors duration-200"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-white transition-colors duration-200"><i class="fab fa-linkedin-in"></i></a>
+            </div>
         </div>
-    </div>
-
+    </footer>
 
     <script>
-        // Chart.js initialization for Active Users
-        const usersCtx = document.getElementById('usersChart').getContext('2d');
-        new Chart(usersCtx, {
-            type: 'line',
-            data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                datasets: [{
-                    label: 'Active Users',
-                    data: [120, 150, 130, 180, 160, 200, 187],
-                    borderColor: 'rgb(59, 130, 246)',
-                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                    tension: 0.3,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const navHeight = document.getElementById('front-page-nav').offsetHeight;
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - navHeight, // Adjust for fixed nav height
+                        behavior: 'smooth'
+                    });
                 }
-            }
-        });
-
-        // Chart.js initialization for Data Usage
-        const dataCtx = document.getElementById('dataChart').getContext('2d');
-        new Chart(dataCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Data Usage (GB)',
-                    data: [280, 310, 290, 330, 300, 342],
-                    backgroundColor: [
-                        '#8b5cf6',
-                        '#8b5cf6',
-                        '#8b5cf6',
-                        '#8b5cf6',
-                        '#8b5cf6',
-                        '#8b5cf6'
-                    ],
-                    borderColor: [
-                        '#8b5cf6',
-                        '#8b5cf6',
-                        '#8b5cf6',
-                        '#8b5cf6',
-                        '#8b5cf6',
-                        '#8b5cf6'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // Chart.js initialization for Bandwidth Flow (on Bandwidth page)
-        const bandwidthFlowCtx = document.getElementById('bandwidthFlowChart');
-        if (bandwidthFlowCtx) { // Ensure the canvas element exists before initializing
-            new Chart(bandwidthFlowCtx.getContext('2d'), {
-                type: 'line',
-                data: {
-                    labels: ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'],
-                    datasets: [{
-                        label: 'Download (Mbps)',
-                        data: [5, 8, 12, 15, 20, 25, 30, 28, 22, 18, 10, 7],
-                        borderColor: 'rgb(37, 99, 235)',
-                        backgroundColor: 'rgba(37, 99, 235, 0.2)',
-                        tension: 0.4,
-                        fill: false
-                    },
-                    {
-                        label: 'Upload (Mbps)',
-                        data: [2, 3, 5, 6, 8, 10, 12, 11, 9, 7, 4, 3],
-                        borderColor: 'rgb(14, 165, 233)',
-                        backgroundColor: 'rgba(14, 165, 233, 0.2)',
-                        tension: 0.4,
-                        fill: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: false,
-                            text: 'Real-time Bandwidth Flow'
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Bandwidth (Mbps)'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-
-        // Mobile menu toggle functionality
-        const menuToggle = document.getElementById('menu-toggle');
-        const sidebar = document.querySelector('.sidebar');
-        const overlay = document.getElementById('overlay');
-        const pageTitle = document.getElementById('page-title');
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('hidden');
-        });
-
-        overlay.addEventListener('click', () => {
-            sidebar.classList.remove('active');
-            overlay.classList.add('hidden');
-        });
-
-        // Function to show a specific content section
-        function showContent(targetId) {
-            // Hide all content sections
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-            });
-
-            // Show the target content section
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-                // Update page title based on the active section
-                pageTitle.textContent = targetSection.id.replace('-content', '').split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-            }
-
-            // Update active link in sidebar
-            document.querySelectorAll('.sidebar-link').forEach(link => {
-                link.classList.remove('bg-primary', 'text-white');
-                link.classList.add('text-gray-300', 'hover:bg-gray-800', 'hover:text-white');
-            });
-            const activeLink = document.querySelector(`.sidebar-link[data-target="${targetId}"]`);
-            if (activeLink) {
-                activeLink.classList.remove('text-gray-300', 'hover:bg-gray-800', 'hover:text-white');
-                activeLink.classList.add('bg-primary', 'text-white');
-            }
-
-            // Close sidebar on mobile after selection
-            if (window.innerWidth < 768) {
-                sidebar.classList.remove('active');
-                overlay.classList.add('hidden');
-            }
-        }
-
-        // Add event listeners to sidebar links
-        document.querySelectorAll('.sidebar-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent default link behavior
-                const targetId = e.currentTarget.getAttribute('data-target');
-                showContent(targetId);
-            });
-        });
-
-        // Initially show the dashboard content when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            showContent('dashboard-content');
-        });
-
-
-        // Modal functionality
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('open');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('open');
-        }
-
-        // Event listeners for opening modals
-        document.getElementById('openHotspotModal')?.addEventListener('click', () => openModal('hotspotModal'));
-        document.getElementById('openUserModal')?.addEventListener('click', () => openModal('userModal'));
-        document.getElementById('openVoucherModal')?.addEventListener('click', () => openModal('voucherModal'));
-
-        // Event listeners for closing modals using the close button
-        document.querySelectorAll('.modal-close-button').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const modalId = e.target.getAttribute('data-modal');
-                closeModal(modalId);
-            });
-        });
-
-        // Close modal when clicking outside the modal content
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target.classList.contains('modal')) {
-                    closeModal(e.target.id);
+                // Close mobile menu if open
+                const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+                if (!mobileMenuOverlay.classList.contains('hidden')) {
+                    mobileMenuOverlay.classList.add('hidden');
                 }
             });
         });
 
-        // Close modal when pressing escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.modal.open').forEach(modal => {
-                    closeModal(modal.id);
+        // Mobile menu toggle logic
+        const frontNavToggle = document.getElementById('front-nav-toggle');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+
+        frontNavToggle.addEventListener('click', () => {
+            mobileMenuOverlay.classList.remove('hidden');
+        });
+
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenuOverlay.classList.add('hidden');
+        });
+
+        document.querySelectorAll('[data-close-menu]').forEach(item => {
+            item.addEventListener('click', () => {
+                mobileMenuOverlay.classList.add('hidden');
+            });
+        });
+
+        // Hide desktop nav links on mobile when overlay is open (optional, as overlay covers it)
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                mobileMenuOverlay.classList.add('hidden'); // Ensure overlay is hidden on desktop resize
+            }
+        });
+
+        // FAQ Accordion functionality
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('.faq-icon');
+
+                // Close other open answers
+                document.querySelectorAll('.faq-answer.open').forEach(openAnswer => {
+                    if (openAnswer !== answer) {
+                        openAnswer.classList.remove('open');
+                        openAnswer.previousElementSibling.querySelector('.faq-icon').classList.remove('rotate');
+                    }
                 });
-            }
+
+                // Toggle current answer
+                answer.classList.toggle('open');
+                icon.classList.toggle('rotate');
+            });
         });
     </script>
 </body>
